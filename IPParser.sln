@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPParser", "IPParser\IPParser.csproj", "{449B01EC-EAF3-4B8E-B579-580464CB0872}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPParser.Tests", "IPParser.Tests\IPParser.Tests.csproj", "{906D7B64-A116-41F7-92F2-90E44352996D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{449B01EC-EAF3-4B8E-B579-580464CB0872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449B01EC-EAF3-4B8E-B579-580464CB0872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449B01EC-EAF3-4B8E-B579-580464CB0872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449B01EC-EAF3-4B8E-B579-580464CB0872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{906D7B64-A116-41F7-92F2-90E44352996D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{906D7B64-A116-41F7-92F2-90E44352996D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{906D7B64-A116-41F7-92F2-90E44352996D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{906D7B64-A116-41F7-92F2-90E44352996D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD424CF6-B95F-459F-9B08-62858C683F29}
+	EndGlobalSection
+EndGlobal
