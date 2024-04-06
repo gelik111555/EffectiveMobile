@@ -1,0 +1,8 @@
+{
+    "--file-log": "/data_file.txt",
+    "--file-output": "/data/filtered_log_data.txt",
+    "--address-start": "10.0.0.1",
+    "--address-mask": 24,
+    "--time-start": "01.04.2023",
+    "--time-end": "07.04.2023"
+}
