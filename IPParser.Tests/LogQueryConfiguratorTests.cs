@@ -1,8 +1,14 @@
-﻿using IPParser.ExtendedExceptions;
+﻿using FluentValidation;
+using IPParser.ExtendedExceptions;
 using IPParser.Interface;
+using IPParser.Models;
+using IPParser.Services;
+using IPParser.Validators;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Moq;
 using Newtonsoft.Json;
+using System.Globalization;
+using System.Net;
 
 namespace IPParser.Tests;
 
@@ -20,8 +26,8 @@ internal class LogQueryConfiguratorTests
 
         var testData = new TestData
         {
-            FileLog = "testLog.log",
-            FileOutput = "output.log",
+            FileLog = "C:\\Windows\\testLog.log",
+            FileOutput = "C:\\Windows\\output.log",
             AddressStart = "192.168.1.1",
             AddressMask = 24,
             TimeStart = "01.01.2020",
@@ -39,8 +45,8 @@ internal class LogQueryConfiguratorTests
 
         var parameters = _configurator.LoadParametersFromJson(filePath);
 
-        Assert.AreEqual("testLog.log", parameters.FileLog);
-        Assert.AreEqual("output.log", parameters.FileOutput);
+        Assert.AreEqual("C:\\Windows\\testLog.log", parameters.FileLog);
+        Assert.AreEqual("C:\\Windows\\output.log", parameters.FileOutput);
         Assert.AreEqual("192.168.1.1", parameters.AddressStart.ToString());
         Assert.AreEqual(24, parameters.AddressMask);
         Assert.AreEqual("01.01.2020", parameters.TimeStart.ToString());
@@ -68,6 +74,53 @@ internal class LogQueryConfiguratorTests
         Assert.IsNotNull(ex);
     }
 
+    [Test]
+    public void LoadParametersFromUserData_WithValidData_ReturnsCorrectParameters()
+    {
+        // Arrange
+        var userData = new UserDataDto
+        {
+            FileLog = "C:\\Windows\\testLog.log",
+            FileOutput = "C:\\Windows\\output.log",
+            AddressStart = "192.168.1.1",
+            AddressMask = "24",
+            TimeStart = "01.01.2020",
+            TimeEnd = "31.12.2020"
+        };
+
+        // Act
+        var result = LogQueryConfigurator.LoadParametersFromUserData(userData);
+
+        // Assert
+        Assert.AreEqual(userData.FileLog, result.FileLog);
+        Assert.AreEqual(userData.FileOutput, result.FileOutput);
+        Assert.AreEqual(IPAddress.Parse(userData.AddressStart), result.AddressStart);
+        Assert.AreEqual(int.Parse(userData.AddressMask), result.AddressMask);
+        Assert.AreEqual(DateOnly.ParseExact(userData.TimeStart, "dd.MM.yyyy", CultureInfo.InvariantCulture), result.TimeStart);
+        Assert.AreEqual(DateOnly.ParseExact(userData.TimeEnd, "dd.MM.yyyy", CultureInfo.InvariantCulture), result.TimeEnd);
+    }
+    [Test]
+    public void LoadParametersFromUserData_WithInvalidData_ThrowsArgumentException()
+    {
+        // Arrange
+        var userData = new UserDataDto
+        {
+            FileLog = "", // Некорректное значение
+            FileOutput = "C:\\Windows\\output.log",
+            AddressStart = "notAnIPAddress",
+            AddressMask = "notANumber",
+            TimeStart = "invalidDate",
+            TimeEnd = "31.12.2020"
+        };
+        var validator = new UserDataDtoValidator();
+
+        // Act & Assert
+        var validationResult = validator.Validate(userData);
+        Assert.IsFalse(validationResult.IsValid); // Убедимся, что данные не прошли валидацию
+
+        var ex = Assert.Throws<ValidationException>(() => LogQueryConfigurator.LoadParametersFromUserData(userData));
+        Assert.That(ex.Message, Does.StartWith("Validation failed")); // Проверяем, что сообщение об ошибке соответствует ожидаемому
+    }
 
 
 }
