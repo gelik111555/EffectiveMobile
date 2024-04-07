@@ -1,13 +1,13 @@
 ﻿using IPParser.ExtendedExceptions;
 using IPParser.Interface;
+using IPParser.Models;
 using Newtonsoft.Json;
 
-namespace IPParser;
+namespace IPParser.Services;
 
-public class LogQueryConfigurator
+public class LogQueryConfigurator: ILogQueryConfigurator
 {
     private readonly IFileReader _fileReader;
-
     public LogQueryConfigurator(IFileReader fileReader)
     {
         _fileReader = fileReader;
@@ -17,8 +17,8 @@ public class LogQueryConfigurator
         try
         {
             var jsonText = _fileReader.ReadAllText(filePath);
-            var parameters = JsonConvert.DeserializeObject<LogQueryParameters>(jsonText);
-            return parameters;
+            var parameters = JsonConvert.DeserializeObject<UserDataDto>(jsonText);
+            return new LogQueryParameters(parameters);
         }
         catch (FileNotFoundException)
         {
@@ -29,5 +29,8 @@ public class LogQueryConfigurator
             throw new ConfigurationException("Invalid configuration format.", filePath);
         }
     }
-
+    public static LogQueryParameters LoadParametersFromUserData(UserDataDto userData)
+    {
+        return new LogQueryParameters(userData);
+    }
 }
