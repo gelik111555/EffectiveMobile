@@ -26,7 +26,8 @@ IP Log Filter — это тестовый проект для компании E
   "time-start": "01.04.2023",
   "time-end": "07.04.2023"
 }
-```json
+```
+
 ## Сборка
 
 Для сборки и запуска проекта вам понадобится .NET SDK. Следуйте этим шагам:
@@ -34,13 +35,16 @@ IP Log Filter — это тестовый проект для компании E
 1. Клонируйте репозиторий:
    ```bash
    git clone https://github.com/your-username/ip-log-filter.git
+   ```
 
 2. Перейдите в директорию проекта и выполните сборку:
 
    ```bash
   cd ip-log-filter
   dotnet build
+  ```
 
 3.Запустите приложение:
 ```bash
   dotnet run
+```
